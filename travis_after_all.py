@@ -57,7 +57,9 @@ def matrix_snapshot(travis_token):
     """
     :return: Matrix List
     """
-    headers = {'content-type': 'application/json', 'Authorization': 'token {}'.format(travis_token)}
+    headers = {'content-type': 'application/json',
+               'user-agent': 'android-drawable-importer/1.0.0',
+               'Authorization': 'token {}'.format(travis_token)}
     req = urllib2.Request("{0}/builds/{1}".format(travis_entry, build_id), headers=headers)
     response = urllib2.urlopen(req).read()
     raw_json = json.loads(response)
@@ -88,7 +90,9 @@ def wait_others_to_finish(travis_token):
 def get_token():
     assert gh_token, 'GITHUB_TOKEN is not set'
     data = {"github_token": gh_token}
-    headers = {'content-type': 'application/json'}
+    headers = {'content-type': 'application/json',
+               'user-agent': 'android-drawable-importer/1.0.0',
+               'accept': 'application/vnd.travis-ci.2+json'}
 
     req = urllib2.Request("{0}/auth/github".format(travis_entry), json.dumps(data), headers)
     response = urllib2.urlopen(req).read()
